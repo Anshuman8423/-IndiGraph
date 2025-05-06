@@ -2,15 +2,12 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-# Page config
 st.set_page_config(page_title="BharatVerse | India's Data Universe", layout='wide')
 
-# Load data
 df = pd.read_csv('/Users/macos/Downloads/India Data/india.csv')
 list_of_states = list(df['State'].unique())
 list_of_states.insert(0, 'Overall India')
 
-# ---------- STYLING ----------
 st.markdown("""
     <style>
         body {
@@ -51,7 +48,6 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# ---------- SIDEBAR ----------
 st.sidebar.image("https://upload.wikimedia.org/wikipedia/en/4/41/Flag_of_India.svg", width=120)
 st.sidebar.markdown("### 🔍 Filter your view")
 selected_state = st.sidebar.selectbox('Select a State/Region', list_of_states)
@@ -59,7 +55,6 @@ primary = st.sidebar.selectbox('Primary Metric (Size)', sorted(df.columns[5:]))
 secondary = st.sidebar.selectbox('Secondary Metric (Color)', sorted(df.columns[5:]))
 plot = st.sidebar.button('📈 Plot Graph')
 
-# ---------- METRICS ----------
 if selected_state == 'Overall India':
     num_districts = df['District'].nunique()
     avg_primary = df[primary].mean()
@@ -76,7 +71,6 @@ col1.metric("Districts", num_districts)
 col2.metric(f"Avg {primary}", f"{avg_primary:.2f}")
 col3.metric(f"Avg {secondary}", f"{avg_secondary:.2f}")
 
-# ---------- PLOTTING ----------
 if plot:
     st.markdown("### 🗺️ Interactive Data Map")
 
